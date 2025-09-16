@@ -23,7 +23,7 @@ const App: React.FC = () => {
   const [curStep, setCurStep] = useState(3);
   const [curFrameSize, setCurFrameSize] = useState(3);
   const [curItemWidth, setCurItemWidth] = useState(130);
-  const [animationDuration, setAnimationDuration] = useState(1000);
+  const [curAnimationDuration, setCurAnimationDuration] = useState(1000);
 
   return (
     <div className="App">
@@ -35,7 +35,7 @@ const App: React.FC = () => {
         step={curStep}
         frameSize={curFrameSize}
         itemWidth={curItemWidth}
-        animationDuration={animationDuration}
+        animationDuration={curAnimationDuration}
         infinite={false}
       />
 
@@ -75,9 +75,9 @@ const App: React.FC = () => {
           <input
             id="durationId"
             type="number"
-            value={animationDuration}
-            data-cy="duration-input"
-            onChange={e => setAnimationDuration(Number(e.target.value))}
+            value={curAnimationDuration}
+            data-cy="animation-input"
+            onChange={e => setCurAnimationDuration(Number(e.target.value))}
           />
         </label>
       </div>

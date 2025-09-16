@@ -11,11 +11,11 @@ interface Props {
 
 const Carousel: React.FC<Props> = ({
   images,
-  step,
-  frameSize,
-  itemWidth,
-  animationDuration,
-  infinite,
+  step = 3,
+  frameSize = 3,
+  itemWidth = 130,
+  animationDuration = 100,
+  infinite = false,
 }) => {
   const [index, setIndex] = useState(0);
 
@@ -45,9 +45,6 @@ const Carousel: React.FC<Props> = ({
 
     setIndex(clamped);
   };
-
-  const isFirst = index === 0 || images.length === 0;
-  const isLast = index >= maxStart || images.length === 0;
 
   return (
     <div className="Carousel">
@@ -97,7 +94,7 @@ const Carousel: React.FC<Props> = ({
           onClick={() => {
             goTo(index - step);
           }}
-          disabled={isFirst}
+          disabled={index - step < 0}
           data-cy="prev"
         >
           Prev
@@ -107,7 +104,7 @@ const Carousel: React.FC<Props> = ({
           onClick={() => {
             goTo(index + step);
           }}
-          disabled={isLast}
+          disabled={index + step > maxStart}
           data-cy="next"
         >
           Next
