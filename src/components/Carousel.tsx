@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './Carousel.scss';
 interface Props {
   images: string[];
-  step: number;
-  frameSize: number;
-  itemWidth: number;
-  animationDuration: number;
-  infinite: boolean;
+  step?: number;
+  frameSize?: number;
+  itemWidth?: number;
+  animationDuration?: number;
+  infinite?: boolean;
 }
 
 const Carousel: React.FC<Props> = ({
@@ -21,6 +21,8 @@ const Carousel: React.FC<Props> = ({
 
   const maxStart: number = Math.max(0, images.length - frameSize);
   const GAP = 10;
+  const canPrev = index - step >= 0;
+  const canNext = index + step <= maxStart;
 
   const goTo = (next: number) => {
     if (images.length === 0) {
@@ -28,17 +30,12 @@ const Carousel: React.FC<Props> = ({
     }
 
     if (infinite) {
-      if (next < 0) {
-        setIndex(maxStart);
+      const allowed = Math.max(1, images.length - frameSize + 1);
+      const nextIndex = ((next % allowed) + allowed) % allowed;
 
-        return;
-      }
+      setIndex(nextIndex);
 
-      if (next > maxStart) {
-        setIndex(0);
-
-        return;
-      }
+      return;
     }
 
     const clamped = Math.min(Math.max(0, next), maxStart);
@@ -94,7 +91,7 @@ const Carousel: React.FC<Props> = ({
           onClick={() => {
             goTo(index - step);
           }}
-          disabled={index - step < 0}
+          disabled={!canPrev}
           data-cy="prev"
         >
           Prev
@@ -104,7 +101,7 @@ const Carousel: React.FC<Props> = ({
           onClick={() => {
             goTo(index + step);
           }}
-          disabled={index + step > maxStart}
+          disabled={!canNext}
           data-cy="next"
         >
           Next
