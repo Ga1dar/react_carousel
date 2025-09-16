@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './Carousel.scss';
-import { State } from '../App';
-
-interface Props extends State {
+interface Props {
   images: string[];
   step: number;
   frameSize: number;
@@ -20,11 +18,8 @@ const Carousel: React.FC<Props> = ({
   infinite,
 }) => {
   const [index, setIndex] = useState(0);
-  const [curStep, setCurStep] = useState(step);
-  const [curFrameSize, setCurFrameSize] = useState(frameSize);
-  const [curItemWidth, setCurItemWidth] = useState(itemWidth);
 
-  const maxStart: number = Math.max(0, images.length - curFrameSize);
+  const maxStart: number = Math.max(0, images.length - frameSize);
   const GAP = 10;
 
   const goTo = (next: number) => {
@@ -59,7 +54,7 @@ const Carousel: React.FC<Props> = ({
       <div
         className="Carousel__viewport"
         style={{
-          width: curFrameSize * curItemWidth + GAP * (curFrameSize - 1),
+          width: frameSize * itemWidth + GAP * (frameSize - 1),
           overflow: 'hidden',
         }}
       >
@@ -71,17 +66,17 @@ const Carousel: React.FC<Props> = ({
             margin: 0,
             padding: 0,
             listStyle: 'none',
-            transform: `translateX(${-index * (curItemWidth + GAP)}px)`,
+            transform: `translateX(${-index * (itemWidth + GAP)}px)`,
             transition: `transform ${animationDuration}ms`,
           }}
         >
           {images.map((src, i) => (
-            <li key={i} style={{ flex: `0 0 ${curItemWidth}px` }}>
+            <li key={i} style={{ flex: `0 0 ${itemWidth}px` }}>
               <img
                 src={src}
                 alt={`Slide ${i + 1}`}
-                width={curItemWidth}
-                height={curItemWidth}
+                width={itemWidth}
+                height={itemWidth}
               />
             </li>
           ))}
@@ -91,7 +86,7 @@ const Carousel: React.FC<Props> = ({
       <div
         className="Batton"
         style={{
-          width: curFrameSize * curItemWidth,
+          width: frameSize * itemWidth,
           display: 'flex',
           justifyContent: 'space-between',
           marginTop: 8,
@@ -100,43 +95,23 @@ const Carousel: React.FC<Props> = ({
         <button
           type="button"
           onClick={() => {
-            goTo(index - curStep);
+            goTo(index - step);
           }}
           disabled={isFirst}
           data-cy="prev"
         >
-          Prev {curStep}
+          Prev
         </button>
         <button
           type="button"
           onClick={() => {
-            goTo(index + curStep);
+            goTo(index + step);
           }}
           disabled={isLast}
           data-cy="next"
         >
-          Next {curStep}
+          Next
         </button>
-      </div>
-      <div>
-        <input
-          type="number"
-          value={curItemWidth}
-          data-cy="width-input"
-          onChange={e => setCurItemWidth(Number(e.target.value))}
-        />
-        <input
-          type="number"
-          value={curFrameSize}
-          data-cy="frame-input"
-          onChange={e => setCurFrameSize(Number(e.target.value))}
-        />
-        <input
-          type="number"
-          value={curStep}
-          data-cy="step-input"
-          onChange={e => setCurStep(Number(e.target.value))}
-        />
       </div>
     </div>
   );

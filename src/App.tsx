@@ -1,46 +1,88 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import './App.scss';
 import Carousel from './components/Carousel';
 
-export interface State {
-  images: string[];
-}
+const App: React.FC = () => {
+  const images: string[] = [
+    './img/1.png',
+    './img/2.png',
+    './img/3.png',
+    './img/4.png',
+    './img/5.png',
+    './img/6.png',
+    './img/7.png',
+    './img/8.png',
+    './img/9.png',
+    './img/10.png',
+  ];
 
-class App extends React.Component<{}, State> {
-  state = {
-    images: [
-      './img/1.png',
-      './img/2.png',
-      './img/3.png',
-      './img/4.png',
-      './img/5.png',
-      './img/6.png',
-      './img/7.png',
-      './img/8.png',
-      './img/9.png',
-      './img/10.png',
-    ],
-  };
+  useEffect(() => {
+    document.title = 'Carousel';
+  }, []);
+  const [curStep, setCurStep] = useState(3);
+  const [curFrameSize, setCurFrameSize] = useState(3);
+  const [curItemWidth, setCurItemWidth] = useState(130);
+  const [animationDuration, setAnimationDuration] = useState(1000);
 
-  render() {
-    const { images } = this.state;
+  return (
+    <div className="App">
+      {/* eslint-disable-next-line */}
+      <h1 data-cy="title">Carousel with {images.length} images</h1>
 
-    return (
-      <div className="App">
-        {/* eslint-disable-next-line */}
-        <h1 data-cy="title">Carousel with {images.length} images</h1>
+      <Carousel
+        images={images}
+        step={curStep}
+        frameSize={curFrameSize}
+        itemWidth={curItemWidth}
+        animationDuration={animationDuration}
+        infinite={false}
+      />
 
-        <Carousel
-          images={images}
-          step={3}
-          frameSize={3}
-          itemWidth={130}
-          animationDuration={400}
-          infinite={false}
-        />
+      <div>
+        <label htmlFor="itemId">
+          itemWidth
+          <input
+            id="itemId"
+            type="number"
+            value={curItemWidth}
+            data-cy="width-input"
+            onChange={e => setCurItemWidth(Number(e.target.value))}
+          />
+        </label>
+        <label htmlFor="frameId">
+          frameSize
+          <input
+            id="frameId"
+            type="number"
+            value={curFrameSize}
+            data-cy="frame-input"
+            onChange={e => setCurFrameSize(Number(e.target.value))}
+          />
+        </label>
+        <label htmlFor="stepId">
+          step
+          <input
+            id="stepId"
+            type="number"
+            value={curStep}
+            data-cy="step-input"
+            onChange={e => setCurStep(Number(e.target.value))}
+          />
+        </label>
+        <label htmlFor="durationId">
+          animationDuration
+          <input
+            id="durationId"
+            type="number"
+            value={animationDuration}
+            data-cy="duration-input"
+            onChange={e => setAnimationDuration(Number(e.target.value))}
+          />
+        </label>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;
