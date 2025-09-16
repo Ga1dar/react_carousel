@@ -24,6 +24,14 @@ const App: React.FC = () => {
   const [curFrameSize, setCurFrameSize] = useState(3);
   const [curItemWidth, setCurItemWidth] = useState(130);
   const [curAnimationDuration, setCurAnimationDuration] = useState(1000);
+  const toInt = (v: string) => {
+    const n = parseInt(v, 10);
+
+    return Number.isNaN(n) ? 0 : n;
+  };
+
+  const clamp = (n: number, min: number, max = Number.POSITIVE_INFINITY) =>
+    Math.min(Math.max(n, min), max);
 
   return (
     <div className="App">
@@ -45,19 +53,27 @@ const App: React.FC = () => {
           <input
             id="itemId"
             type="number"
+            min={1}
+            step={1}
+            inputMode="numeric"
+            pattern="\d*"
             value={curItemWidth}
             data-cy="width-input"
-            onChange={e => setCurItemWidth(Number(e.target.value))}
+            onChange={e => setCurItemWidth(clamp(toInt(e.target.value), 1))}
           />
         </label>
         <label htmlFor="frameId">
           frameSize
           <input
             id="frameId"
+            min={1}
+            step={1}
+            inputMode="numeric"
+            pattern="\d*"
             type="number"
             value={curFrameSize}
             data-cy="frame-input"
-            onChange={e => setCurFrameSize(Number(e.target.value))}
+            onChange={e => setCurFrameSize(clamp(toInt(e.target.value), 1))}
           />
         </label>
         <label htmlFor="stepId">
@@ -65,9 +81,13 @@ const App: React.FC = () => {
           <input
             id="stepId"
             type="number"
+            min={1}
+            step={1}
+            inputMode="numeric"
+            pattern="\d*"
             value={curStep}
             data-cy="step-input"
-            onChange={e => setCurStep(Number(e.target.value))}
+            onChange={e => setCurStep(clamp(toInt(e.target.value), 1))}
           />
         </label>
         <label htmlFor="durationId">
@@ -75,9 +95,15 @@ const App: React.FC = () => {
           <input
             id="durationId"
             type="number"
+            min={1}
+            step={1}
+            inputMode="numeric"
+            pattern="\d*"
             value={curAnimationDuration}
             data-cy="animation-input"
-            onChange={e => setCurAnimationDuration(Number(e.target.value))}
+            onChange={e =>
+              setCurAnimationDuration(clamp(toInt(e.target.value), 0))
+            }
           />
         </label>
       </div>

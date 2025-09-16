@@ -14,7 +14,7 @@ const Carousel: React.FC<Props> = ({
   step = 3,
   frameSize = 3,
   itemWidth = 130,
-  animationDuration = 100,
+  animationDuration = 1000,
   infinite = false,
 }) => {
   const [index, setIndex] = useState(0);
@@ -78,7 +78,7 @@ const Carousel: React.FC<Props> = ({
       </div>
 
       <div
-        className="Batton"
+        className="Button"
         style={{
           width: frameSize * itemWidth,
           display: 'flex',
